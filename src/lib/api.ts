@@ -30,7 +30,7 @@ api.interceptors.response.use(
 
       try {
         const refreshToken = localStorage.getItem('refreshToken');
-        
+
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL || '/api'}/auth/refresh`,
           { refreshToken },
@@ -39,18 +39,18 @@ api.interceptors.response.use(
 
         console.log('Token refresh successful');
         localStorage.setItem('accessToken', data.accessToken);
-        
+
         // Store new refresh token if provided
         if (data.refreshToken) {
           localStorage.setItem('refreshToken', data.refreshToken);
         }
-        
+
         originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
 
         return api(originalRequest);
       } catch (refreshError) {
         console.error('Token refresh failed:', refreshError);
-        
+
         // Only redirect if not already on login page
         if (!window.location.pathname.includes('/login')) {
           localStorage.removeItem('accessToken');

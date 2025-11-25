@@ -80,12 +80,12 @@ export default function LoginPage() {
       });
 
       console.log('Backend response:', data);
-      
+
       // Store refresh token in localStorage if provided
       if (data.refreshToken) {
         localStorage.setItem('refreshToken', data.refreshToken);
       }
-      
+
       login(data.accessToken, data.user);
 
       toast({

@@ -47,7 +47,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem('refreshToken');
       }
     }
-    
+
     setIsLoading(false);
 
     // Listen for storage events to sync across tabs

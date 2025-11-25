@@ -25,12 +25,11 @@ export default function HomePage() {
   const { isAuthenticated, user, accessToken, isLoading: isSessionLoading } = useSession();
   const isGuest = accessToken?.startsWith('guest-token');
   const [matchMode, setMatchMode] = useState<'strict' | 'random'>('random');
-  const { data: suggestions, isLoading, refetch } = useMatchSuggestions(
-    10,
-    true,
-    isAuthenticated && !isGuest,
-    matchMode,
-  );
+  const {
+    data: suggestions,
+    isLoading,
+    refetch,
+  } = useMatchSuggestions(10, true, isAuthenticated && !isGuest, matchMode);
   const createMatch = useCreateMatch();
   const toast = useToast();
 
@@ -83,7 +82,16 @@ export default function HomePage() {
   ];
 
   useEffect(() => {
-    console.log('HomePage - isSessionLoading:', isSessionLoading, 'isAuthenticated:', isAuthenticated, 'user:', user, 'isGuest:', isGuest);
+    console.log(
+      'HomePage - isSessionLoading:',
+      isSessionLoading,
+      'isAuthenticated:',
+      isAuthenticated,
+      'user:',
+      user,
+      'isGuest:',
+      isGuest,
+    );
     if (!isSessionLoading && !isAuthenticated) {
       console.log('Not authenticated, redirecting to login');
       router.push('/login');
@@ -167,10 +175,7 @@ export default function HomePage() {
               Match Mode:
             </Text>
             <HStack spacing={2}>
-              <Tooltip
-                label="Show all students from any university"
-                placement="top"
-              >
+              <Tooltip label="Show all students from any university" placement="top">
                 <Badge
                   colorScheme={matchMode === 'random' ? 'purple' : 'gray'}
                   fontSize="sm"
@@ -185,14 +190,9 @@ export default function HomePage() {
               <Switch
                 colorScheme="purple"
                 isChecked={matchMode === 'strict'}
-                onChange={(e) =>
-                  setMatchMode(e.target.checked ? 'strict' : 'random')
-                }
+                onChange={(e) => setMatchMode(e.target.checked ? 'strict' : 'random')}
               />
-              <Tooltip
-                label="Only show students from your school"
-                placement="top"
-              >
+              <Tooltip label="Only show students from your school" placement="top">
                 <Badge
                   colorScheme={matchMode === 'strict' ? 'purple' : 'gray'}
                   fontSize="sm"
