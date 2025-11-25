@@ -17,7 +17,7 @@ import { useSession } from '@/contexts/SessionContext';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { user, logout } = useSession();
+  const { logout } = useSession();
   const router = useRouter();
   const bgColor = useColorModeValue('gray.50', 'gray.900');
   const navBg = useColorModeValue('white', 'gray.800');

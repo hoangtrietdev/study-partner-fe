@@ -24,7 +24,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     // Load session from localStorage on mount
     const token = localStorage.getItem('accessToken');
     const userStr = localStorage.getItem('user');
-    const refreshToken = localStorage.getItem('refreshToken');
+    // const refreshToken = localStorage.getItem('refreshToken');
 
     if (token && userStr) {
       try {

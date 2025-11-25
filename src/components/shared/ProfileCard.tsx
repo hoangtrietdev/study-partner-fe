@@ -9,7 +9,7 @@ interface ProfileCardProps {
 }
 
 export default function ProfileCard({ user }: ProfileCardProps) {
-  const bgColor = useColorModeValue('white', 'gray.800');
+  //   const bgColor = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.600', 'gray.400');
 
   return (
