@@ -43,7 +43,7 @@ export default function MatchesPage() {
     if (match.otherUser) {
       return match.otherUser;
     }
-    
+
     // Fallback to old logic if otherUser not present
     const userAId = typeof match.userAId === 'string' ? match.userAId : match.userAId._id;
     if (userAId === user?._id) {

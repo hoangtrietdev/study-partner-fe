@@ -13,10 +13,7 @@ export async function POST(request: NextRequest) {
     const credential = body.credential || body.token;
 
     if (!credential) {
-      return NextResponse.json(
-        { message: 'Credential is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: 'Credential is required' }, { status: 400 });
     }
 
     // Verify the Google token
@@ -27,10 +24,7 @@ export async function POST(request: NextRequest) {
 
     const payload = ticket.getPayload();
     if (!payload) {
-      return NextResponse.json(
-        { message: 'Invalid Google token' },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: 'Invalid Google token' }, { status: 401 });
     }
 
     const { sub: googleId, email, name, picture } = payload;
@@ -38,7 +32,7 @@ export async function POST(request: NextRequest) {
     if (!email || !name) {
       return NextResponse.json(
         { message: 'Email and name are required from Google' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -107,7 +101,7 @@ export async function POST(request: NextRequest) {
     console.error('Google login error:', error);
     return NextResponse.json(
       { message: 'Authentication failed', error: String(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

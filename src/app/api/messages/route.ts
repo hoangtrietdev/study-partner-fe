@@ -13,10 +13,7 @@ export async function POST(request: NextRequest) {
     const { matchId, content } = await request.json();
 
     if (!matchId || !content) {
-      return NextResponse.json(
-        { message: 'matchId and content are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: 'matchId and content are required' }, { status: 400 });
     }
 
     await connectDB();
@@ -29,15 +26,11 @@ export async function POST(request: NextRequest) {
     });
 
     if (!match) {
-      return NextResponse.json(
-        { message: 'Match not found or not active' },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: 'Match not found or not active' }, { status: 404 });
     }
 
     // Determine recipient
-    const recipientId =
-      match.userAId === auth.userId ? match.userBId : match.userAId;
+    const recipientId = match.userAId === auth.userId ? match.userBId : match.userAId;
 
     // Create message
     const message = await Message.create({
@@ -52,10 +45,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(message, { status: 201 });
   } catch (error) {
     console.error('Create message error:', error);
-    return NextResponse.json(
-      { message: 'Failed to create message' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to create message' }, { status: 500 });
   }
 }
 
@@ -68,10 +58,7 @@ export async function GET(request: NextRequest) {
     const matchId = searchParams.get('matchId');
 
     if (!matchId) {
-      return NextResponse.json(
-        { message: 'matchId is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: 'matchId is required' }, { status: 400 });
     }
 
     await connectDB();
@@ -83,10 +70,7 @@ export async function GET(request: NextRequest) {
     });
 
     if (!match) {
-      return NextResponse.json(
-        { message: 'Match not found or access denied' },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: 'Match not found or access denied' }, { status: 404 });
     }
 
     // Get messages
@@ -98,9 +82,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(messages);
   } catch (error) {
     console.error('Get messages error:', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch messages' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to fetch messages' }, { status: 500 });
   }
 }

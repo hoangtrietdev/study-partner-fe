@@ -17,12 +17,9 @@ export function getAuthUser(request: NextRequest): JWTPayload | null {
 
 export function requireAuth(request: NextRequest): JWTPayload | NextResponse {
   const user = getAuthUser(request);
-  
+
   if (!user) {
-    return NextResponse.json(
-      { message: 'Unauthorized' },
-      { status: 401 }
-    );
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   return user;

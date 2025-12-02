@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { User } from '@/lib/models/User';
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(_request: NextRequest, { params }: { params: { id: string } }) {
   try {
     await connectDB();
 
@@ -18,9 +15,6 @@ export async function GET(
     return NextResponse.json(user);
   } catch (error) {
     console.error('Get user by ID error:', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch user' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to fetch user' }, { status: 500 });
   }
 }

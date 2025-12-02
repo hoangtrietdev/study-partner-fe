@@ -8,10 +8,7 @@ export async function POST(request: NextRequest) {
     const { refreshToken } = await request.json();
 
     if (!refreshToken) {
-      return NextResponse.json(
-        { message: 'Refresh token is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: 'Refresh token is required' }, { status: 400 });
     }
 
     // Verify refresh token
@@ -27,10 +24,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json(
-        { message: 'Invalid refresh token' },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: 'Invalid refresh token' }, { status: 401 });
     }
 
     // Generate new access token
@@ -42,9 +36,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ accessToken });
   } catch (error) {
     console.error('Token refresh error:', error);
-    return NextResponse.json(
-      { message: 'Token refresh failed' },
-      { status: 401 }
-    );
+    return NextResponse.json({ message: 'Token refresh failed' }, { status: 401 });
   }
 }

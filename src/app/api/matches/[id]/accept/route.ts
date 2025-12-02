@@ -3,10 +3,7 @@ import { connectDB } from '@/lib/db';
 import { Match, MatchStatus } from '@/lib/models/Match';
 import { requireAuth } from '@/lib/auth-middleware';
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   const auth = requireAuth(request);
   if (auth instanceof NextResponse) return auth;
 
@@ -31,9 +28,6 @@ export async function PATCH(
     return NextResponse.json(match);
   } catch (error) {
     console.error('Accept match error:', error);
-    return NextResponse.json(
-      { message: 'Failed to accept match' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to accept match' }, { status: 500 });
   }
 }

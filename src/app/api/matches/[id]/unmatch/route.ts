@@ -27,17 +27,11 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     await match.save();
 
     // Optionally delete associated messages
-    await Message.updateMany(
-      { matchId: params.id },
-      { $set: { deleted: true } }
-    );
+    await Message.updateMany({ matchId: params.id }, { $set: { deleted: true } });
 
     return NextResponse.json({ message: 'Match unmatched successfully' });
   } catch (error) {
     console.error('Unmatch error:', error);
-    return NextResponse.json(
-      { message: 'Failed to unmatch' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to unmatch' }, { status: 500 });
   }
 }

@@ -27,9 +27,7 @@ export async function GET(request: NextRequest) {
       $or: [{ userAId: auth.userId }, { userBId: auth.userId }],
     });
 
-    const excludedUserIds = new Set(
-      existingMatches.flatMap((m) => [m.userAId, m.userBId])
-    );
+    const excludedUserIds = new Set(existingMatches.flatMap((m) => [m.userAId, m.userBId]));
     excludedUserIds.add(auth.userId);
 
     // Build query
@@ -47,17 +45,14 @@ export async function GET(request: NextRequest) {
     // Calculate scores for each candidate
     const suggestions = await Promise.all(
       candidates.map(async (candidate) => {
-        const { score, explanation } = await calculateMatchScore(
-          currentUser,
-          candidate
-        );
+        const { score, explanation } = await calculateMatchScore(currentUser, candidate);
 
         return {
           user: candidate,
           score,
           explanation,
         };
-      })
+      }),
     );
 
     // Sort by score descending
@@ -66,9 +61,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(suggestions);
   } catch (error) {
     console.error('Get suggestions error:', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch suggestions' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to fetch suggestions' }, { status: 500 });
   }
 }

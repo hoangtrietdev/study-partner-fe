@@ -10,9 +10,7 @@ export async function GET(request: NextRequest) {
   try {
     await connectDB();
 
-    const user = await User.findOne({ _id: auth.userId }).select(
-      '-refreshToken'
-    );
+    const user = await User.findOne({ _id: auth.userId }).select('-refreshToken');
 
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
@@ -21,10 +19,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(user);
   } catch (error) {
     console.error('Get user error:', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch user' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to fetch user' }, { status: 500 });
   }
 }
 
@@ -40,7 +35,7 @@ export async function PATCH(request: NextRequest) {
     const user = await User.findOneAndUpdate(
       { _id: auth.userId },
       { $set: updates },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     ).select('-refreshToken');
 
     if (!user) {
@@ -50,9 +45,6 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json(user);
   } catch (error) {
     console.error('Update user error:', error);
-    return NextResponse.json(
-      { message: 'Failed to update user' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to update user' }, { status: 500 });
   }
 }

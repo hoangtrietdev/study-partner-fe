@@ -33,7 +33,7 @@ const MatchSchema = new Schema<IMatch>(
   {
     timestamps: true,
     _id: false,
-  }
+  },
 );
 
 // Compound index to prevent duplicate matches

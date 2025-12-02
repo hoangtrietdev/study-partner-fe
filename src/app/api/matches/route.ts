@@ -13,10 +13,7 @@ export async function POST(request: NextRequest) {
     const { userBId, score, explanation } = await request.json();
 
     if (!userBId) {
-      return NextResponse.json(
-        { message: 'userBId is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: 'userBId is required' }, { status: 400 });
     }
 
     await connectDB();
@@ -24,10 +21,7 @@ export async function POST(request: NextRequest) {
     // Check if target user exists
     const userB = await User.findOne({ _id: userBId });
     if (!userB) {
-      return NextResponse.json(
-        { message: 'Target user not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: 'Target user not found' }, { status: 404 });
     }
 
     // Check if match already exists
@@ -39,10 +33,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingMatch) {
-      return NextResponse.json(
-        { message: 'Match already exists' },
-        { status: 409 }
-      );
+      return NextResponse.json({ message: 'Match already exists' }, { status: 409 });
     }
 
     // Create new match
@@ -58,10 +49,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(match, { status: 201 });
   } catch (error) {
     console.error('Create match error:', error);
-    return NextResponse.json(
-      { message: 'Failed to create match' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to create match' }, { status: 500 });
   }
 }
 
@@ -88,28 +76,22 @@ export async function GET(request: NextRequest) {
     // Populate user data
     const populatedMatches = await Promise.all(
       matches.map(async (match) => {
-        const otherUserId =
-          match.userAId === auth.userId ? match.userBId : match.userAId;
-        const otherUser = await User.findOne({ _id: otherUserId }).select(
-          '-refreshToken'
-        );
+        const otherUserId = match.userAId === auth.userId ? match.userBId : match.userAId;
+        const otherUser = await User.findOne({ _id: otherUserId }).select('-refreshToken');
 
         return {
           ...match.toObject(),
           otherUser,
         };
-      })
+      }),
     );
 
     // Filter out matches where the other user doesn't exist
-    const validMatches = populatedMatches.filter(m => m.otherUser);
+    const validMatches = populatedMatches.filter((m) => m.otherUser);
 
     return NextResponse.json(validMatches);
   } catch (error) {
     console.error('Get matches error:', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch matches' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Failed to fetch matches' }, { status: 500 });
   }
 }

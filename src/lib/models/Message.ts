@@ -23,12 +23,11 @@ const MessageSchema = new Schema<IMessage>(
   {
     timestamps: true,
     _id: false,
-  }
+  },
 );
 
 // Index for efficient queries
 MessageSchema.index({ matchId: 1, createdAt: -1 });
 
 export const Message: Model<IMessage> =
-  mongoose.models.Message ||
-  mongoose.model<IMessage>('Message', MessageSchema);
+  mongoose.models.Message || mongoose.model<IMessage>('Message', MessageSchema);

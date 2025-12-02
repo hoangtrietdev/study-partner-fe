@@ -8,10 +8,7 @@ export interface MatchScore {
   explanation: string;
 }
 
-export async function calculateMatchScore(
-  user1: any,
-  user2: any
-): Promise<MatchScore> {
+export async function calculateMatchScore(user1: any, user2: any): Promise<MatchScore> {
   if (!GROQ_API_KEY) {
     // Fallback if no API key
     return {
@@ -60,7 +57,7 @@ Respond ONLY with valid JSON in this exact format:
           Authorization: `Bearer ${GROQ_API_KEY}`,
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
 
     const content = response.data.choices[0]?.message?.content || '';
