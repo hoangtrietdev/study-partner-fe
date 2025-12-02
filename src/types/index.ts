@@ -27,6 +27,7 @@ export interface Match {
   status: 'pending' | 'matched' | 'unmatched';
   score?: number;
   explanation?: string;
+  otherUser?: User; // Populated by API
   createdAt: Date;
   updatedAt: Date;
 }

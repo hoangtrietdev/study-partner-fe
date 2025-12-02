@@ -38,12 +38,18 @@ export default function MatchesPage() {
     );
   }
 
-  const getMatchedUser = (match: Match): User => {
+  const getMatchedUser = (match: Match): User | undefined => {
+    // API returns otherUser field with populated user data
+    if (match.otherUser) {
+      return match.otherUser;
+    }
+    
+    // Fallback to old logic if otherUser not present
     const userAId = typeof match.userAId === 'string' ? match.userAId : match.userAId._id;
     if (userAId === user?._id) {
-      return typeof match.userBId === 'string' ? ({} as User) : match.userBId;
+      return typeof match.userBId === 'string' ? undefined : match.userBId;
     }
-    return typeof match.userAId === 'string' ? ({} as User) : match.userAId;
+    return typeof match.userAId === 'string' ? undefined : match.userAId;
   };
 
   return (
@@ -66,7 +72,7 @@ export default function MatchesPage() {
         {!isLoading &&
           matches?.map((match) => {
             const matchedUser = getMatchedUser(match);
-            if (!matchedUser.name) return null;
+            if (!matchedUser || !matchedUser.name) return null;
 
             return (
               <Box
@@ -84,7 +90,7 @@ export default function MatchesPage() {
                 }}
               >
                 <HStack spacing={4}>
-                  <Avatar src={matchedUser.imageUrl} name={matchedUser.name} size="lg" />
+                  <Avatar src={matchedUser.imageUrl || ''} name={matchedUser.name} size="lg" />
                   <VStack align="start" spacing={1} flex={1}>
                     <HStack>
                       <Text fontSize="xl" fontWeight="bold">

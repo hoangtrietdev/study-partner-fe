@@ -4,14 +4,7 @@ const nextConfig = {
   images: {
     domains: ['lh3.googleusercontent.com', 'localhost'],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:3001/:path*',
-      },
-    ];
-  },
+  // Removed API proxy - using Next.js API routes directly
 };
 
 module.exports = nextConfig;

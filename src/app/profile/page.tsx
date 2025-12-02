@@ -116,10 +116,10 @@ export default function ProfilePage() {
     <Layout>
       <VStack spacing={6} align="stretch" maxW="600px" mx="auto">
         <HStack spacing={4}>
-          <Avatar src={user.imageUrl} name={user.name} size="xl" />
+          <Avatar src={user?.imageUrl || ''} name={user?.name || 'User'} size="xl" />
           <VStack align="start" spacing={0}>
-            <Heading size="lg">{user.name}</Heading>
-            <Text color="gray.500">{user.email}</Text>
+            <Heading size="lg">{user?.name || 'User'}</Heading>
+            <Text color="gray.500">{user?.email || ''}</Text>
           </VStack>
         </HStack>
 
