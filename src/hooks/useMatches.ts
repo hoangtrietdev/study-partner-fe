@@ -25,7 +25,6 @@ export function useMatchSuggestions(
       const { data } = await api.get('/matches/suggestions', {
         params: { limit: Number(limit), useAI, matchMode },
       });
-      console.log('Fetched match suggestions:', data);
       return data;
     },
     enabled,

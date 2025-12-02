@@ -48,7 +48,8 @@ export async function GET(request: NextRequest) {
         const { score, explanation } = await calculateMatchScore(currentUser, candidate);
 
         return {
-          user: candidate,
+          candidateId: candidate._id,
+          candidate: candidate,
           score,
           explanation,
         };
