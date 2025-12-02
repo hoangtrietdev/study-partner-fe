@@ -123,15 +123,19 @@ export default function HomePage() {
     }
 
     try {
-      await createMatch.mutateAsync(currentSuggestion.candidateId);
+      await createMatch.mutateAsync({
+        userBId: currentSuggestion.candidateId,
+        score: currentSuggestion.score,
+        explanation: currentSuggestion.explanation,
+      });
       toast({
         title: 'Match created!',
         description: 'You liked this profile',
         status: 'success',
         duration: 2000,
       });
-      refetch();
-    } catch (error) {
+      await refetch();
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to create match',
@@ -209,6 +213,28 @@ export default function HomePage() {
         )}
 
         {displayLoading && <Spinner size="xl" />}
+
+        {createMatch.isPending && (
+          <Box
+            position="fixed"
+            top="0"
+            left="0"
+            right="0"
+            bottom="0"
+            bg="blackAlpha.600"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            zIndex={9999}
+          >
+            <VStack spacing={4}>
+              <Spinner size="xl" color="white" thickness="4px" />
+              <Text color="white" fontSize="lg" fontWeight="bold">
+                Creating match...
+              </Text>
+            </VStack>
+          </Box>
+        )}
 
         {!displayLoading && !currentSuggestion && (
           <Text fontSize="lg" color="gray.500">

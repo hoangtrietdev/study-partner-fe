@@ -35,8 +35,20 @@ export function useCreateMatch() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (targetId: string) => {
-      const { data } = await api.post(`/matches/${targetId}`);
+    mutationFn: async ({
+      userBId,
+      score,
+      explanation,
+    }: {
+      userBId: string;
+      score?: number;
+      explanation?: string;
+    }) => {
+      const { data } = await api.post('/matches', {
+        userBId,
+        score,
+        explanation,
+      });
       return data;
     },
     onSuccess: () => {
