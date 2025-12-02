@@ -6,7 +6,9 @@ export function useMessages(matchId: string) {
   return useQuery<Message[]>({
     queryKey: ['messages', matchId],
     queryFn: async () => {
-      const { data } = await api.get(`/messages/${matchId}`);
+      const { data } = await api.get('/messages', {
+        params: { matchId },
+      });
       return data;
     },
     enabled: !!matchId,
@@ -18,7 +20,7 @@ export function useSendMessage() {
 
   return useMutation({
     mutationFn: async ({ matchId, content }: { matchId: string; content: string }) => {
-      const { data } = await api.post(`/messages/${matchId}`, { content });
+      const { data } = await api.post('/messages', { matchId, content });
       return data;
     },
     onSuccess: (_, variables) => {
